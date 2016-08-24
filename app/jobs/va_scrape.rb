@@ -34,7 +34,8 @@ class VaScrape
 
   def persist(addys)
     addys.each do |addy|
-      Condo.create(address: addy)
+      first = addy[0].to_i
+      Condo.create(address: addy) if first.to_s.to_i == first
     end
   end
 
