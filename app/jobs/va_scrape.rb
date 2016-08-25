@@ -38,6 +38,9 @@ class VaScrape
       first = addy[0]
       Condo.create(address: addy) if first.to_i.to_s == first
     end
+    Condo.all.each do |condo|
+      Address.create(latitude: condo.latitude, longitude: condo.longitude)
+    end
   end
 
 end
