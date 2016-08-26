@@ -33,6 +33,7 @@ gem 'kaminari'
 gem 'mechanize'
 gem 'geocoder'
 gem 'binding_of_caller'
+gem 'rack-cors'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
