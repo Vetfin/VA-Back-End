@@ -23,8 +23,8 @@ class Zillow
     statuses = []
     zpids.each do |zpid|
       page = @agent.get("http://www.zillow.com/homedetails/#{zpid}_zpid/")
-      #statuses << page.search(".status-icon-row").children[3].children.to_s
-      statuses << page.search("#home-value-wrapper .for-sale-row").first.text.strip
+      statuses << page.search(".status-icon-row").children[3].children.to_s
+      #statuses << page.search("#home-value-wrapper .for-sale-row").first.text.strip
     end
     statuses
   end
