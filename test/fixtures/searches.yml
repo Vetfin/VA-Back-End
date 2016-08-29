@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  zipcode: 1
+  city: MyString
+  min_price: 1
+  max_price: 1
+  min_feet: 1
+  max_feet: 1
+  min_bed: 1
+  max_bed: 1
+  min_bath: 1.5
+  max_bath: 1.5
+  parking: false
+  min_hoa: 1
+  max_hoa: 1
+
+two:
+  zipcode: 1
+  city: MyString
+  min_price: 1
+  max_price: 1
+  min_feet: 1
+  max_feet: 1
+  min_bed: 1
+  max_bed: 1
+  min_bath: 1.5
+  max_bath: 1.5
+  parking: false
+  min_hoa: 1
+  max_hoa: 1
