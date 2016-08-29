@@ -8,5 +8,10 @@ class CreateUsers < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-  end
+
+    create_table :developers_projects, id: false do |t|
+      t.integer :developer_id
+      t.integer :project_id
+    end
+  end  
 end
