@@ -14,15 +14,15 @@ class VaScrape
 
 
   def get_addresses
-    condos = []
-    @page.search(".inputpanelfields").each do |condo|
-      rows = condo.search("tr")
-      condos << rows
+    buildings = []
+    @page.search(".inputpanelfields").each do |building|
+      rows = building.search("tr")
+      buildings << rows
     end
 
     records = []
-    condos.each do |condo|
-      records << condo[1].children.map {|child| child.content.gsub("\t", "")}
+    buildings.each do |building|
+      records << building[1].children.map {|child| child.content.gsub("\t", "")}
     end
 
     addresses = []
