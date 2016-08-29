@@ -1,6 +1,6 @@
-class CondosController < ApplicationController
+class BuildingsController < ApplicationController
   def index
-    @condos = Condo.all
+    @buildings = Building.all
   end
 
 end

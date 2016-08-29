@@ -36,10 +36,10 @@ class VaScrape
   def persist(addys)
     addys.each do |addy|
       first = addy[0]
-      Condo.create(address: addy) if first.to_i.to_s == first
+      Building.create(address: addy) if first.to_i.to_s == first
     end
-    Condo.all.each do |condo|
-      Address.create(latitude: condo.latitude, longitude: condo.longitude)
+    Building.all.each do |building|
+      Address.create(latitude: building.latitude, longitude: building.longitude)
     end
   end
 
