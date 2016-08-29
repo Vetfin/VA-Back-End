@@ -1,9 +1,10 @@
 class Zillow
 
-  def initialize
+  def initialize(address)
     @agent = Mechanize.new
     @agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
     @add_search_url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19lv1cfv0uj_9k5bc&address="
+    get_statuses(get_zpids(address))
   end
 
   def get_zpids(address)
