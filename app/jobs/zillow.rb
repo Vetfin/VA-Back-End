@@ -1,32 +1,35 @@
 class Zillow
 
-  def initialize(address)
+  def initialize
     @agent = Mechanize.new
     @agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
     @add_search_url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19lv1cfv0uj_9k5bc&address="
-    get_statuses(get_zpids(address))
+    Address.each do |address|
+      update_condos(address)
+    end
   end
 
-  def get_zpids(address)
+
+  def update_condos(address_obj)
+    address = address_obj.address
     addy = address.gsub(",", "")
     parts = addy.split(" ")
     page = @agent.get("#{@add_search_url}#{parts[0]}+#{parts[1]}+#{parts[2]}+#{parts[3]}+&citystatezip=Washington%2C+DC")
-    zpids = []
     page.search("zpid").each do |zpid|
-      zpids << zpid.children.to_s
+      zil_id = zpid.children.to_s
+      if get_status(zil_id) == "For Sale"
+        Condo.create
+      end
     end
-    zpids
   end
 
 
-
-  def get_statuses(zpids)
-    statuses = []
+  def get_status(zpid)
     zpids.each do |zpid|
       page = @agent.get("http://www.zillow.com/homedetails/#{zpid}_zpid/")
-      statuses << page.search(".status-icon-row").children.text.strip
+      status = page.search(".status-icon-row").children.text.strip
     end
-    statuses
+    status
   end
 
 
