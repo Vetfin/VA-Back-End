@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'condos/index'
+
+  get 'addresses/index'
+
   root 'welcome#index'
 
   resources :condos, only: [:index]
