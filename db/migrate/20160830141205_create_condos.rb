@@ -1,9 +1,7 @@
 class CreateCondos < ActiveRecord::Migration[5.0]
   def change
     create_table :condos do |t|
-      t.string :street_number
-      t.string :street_name
-      t.string :unit
+      t.string :street_address
       t.string :city
       t.string :state
       t.integer :zipcode
@@ -15,6 +13,7 @@ class CreateCondos < ActiveRecord::Migration[5.0]
       t.boolean :parking
       t.integer :hoa
       t.integer :zillow_id
+      t.integer :address_id
 
       t.timestamps
     end

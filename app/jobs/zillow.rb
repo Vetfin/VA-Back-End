@@ -4,7 +4,7 @@ class Zillow
     @agent = Mechanize.new
     @agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
     @add_search_url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19lv1cfv0uj_9k5bc&address="
-    Address.each do |address|
+    Address.all.each do |address|
       update_condos(address)
     end
   end
@@ -18,7 +18,12 @@ class Zillow
     page.search("zpid").each do |zpid|
       zil_id = zpid.children.to_s
       if get_status(zil_id) == "For Sale"
-        Condo.create
+        stuff = page.search(".addr_bbs")
+        beds = stuff[0].text.to_i
+        baths = stuff[1].text.to_f
+        sq_ft = stuff[2].text.gsub(",", "").to_i
+        price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
+        Condo.create(street_address: address, city: "Washington", state: "DC", condo_name: address_obj.name, price: price, sq_ft: sq_ft, beds: beds, baths: baths, zillow_id: zil_id.to_i, address_id: address_obj.id)
       end
     end
   end
