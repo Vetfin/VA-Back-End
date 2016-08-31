@@ -5,7 +5,10 @@ class Zillow
     @agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
     @add_search_url = "http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19lv1cfv0uj_9k5bc&address="
     Address.all.each do |address|
-      make_condos(get_zpids(address), address)
+      begin
+        make_condos(get_zpids(address), address)
+      rescue
+      end
     end
   end
 
@@ -28,16 +31,13 @@ class Zillow
       page = @agent.get("http://www.zillow.com/homedetails/#{zpid}_zpid/")
       status = page.search(".status-icon-row").children.text.strip
       if status == "For Sale"
-        begin
-          stuff = page.search(".addr_bbs")
-          beds = stuff[0].text.to_i
-          baths = stuff[1].text.to_f
-          sq_ft = stuff[2].text.gsub(",", "").to_i
-          price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
-          address = page.search(".notranslate")[0].text.strip
-          Condo.create(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, zillow_id: zpid.to_i, address_id: address_obj.id)
-        rescue
-        end
+        stuff = page.search(".addr_bbs")
+        beds = stuff[0].text.to_i
+        baths = stuff[1].text.to_f
+        sq_ft = stuff[2].text.gsub(",", "").to_i
+        price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
+        address = page.search(".notranslate")[0].text.strip
+        Condo.create(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, zillow_id: zpid.to_i, address_id: address_obj.id)
       end
     end
   end
