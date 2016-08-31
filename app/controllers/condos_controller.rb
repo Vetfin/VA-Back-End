@@ -4,7 +4,7 @@ class CondosController < ApplicationController
   end
 
   def search
-    @condos = Condo.where("price <? AND price >?", search_params[:max_price], search_params[:min_price])
+    @condos = Condo.where("price <? AND price >?", "%#{params[:max_price]}%", "%#{params[:min_price]}%")
     render :index
   end
 
