@@ -28,13 +28,16 @@ class Zillow
       page = @agent.get("http://www.zillow.com/homedetails/#{zpid}_zpid/")
       status = page.search(".status-icon-row").children.text.strip
       if status == "For Sale"
-        stuff = page.search(".addr_bbs")
-        beds = stuff[0].text.to_i
-        baths = stuff[1].text.to_f
-        sq_ft = stuff[2].text.gsub(",", "").to_i
-        price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
-        address = page.search(".notranslate")[0].text.strip
-        Condo.create(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, zillow_id: zpid.to_i, address_id: address_obj.id)
+        begin
+          stuff = page.search(".addr_bbs")
+          beds = stuff[0].text.to_i
+          baths = stuff[1].text.to_f
+          sq_ft = stuff[2].text.gsub(",", "").to_i
+          price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
+          address = page.search(".notranslate")[0].text.strip
+          Condo.create(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, zillow_id: zpid.to_i, address_id: address_obj.id)
+        rescue
+        end
       end
     end
   end
