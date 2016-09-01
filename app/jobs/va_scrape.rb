@@ -34,13 +34,20 @@ class VaScrape
   end
 
   def persist(addys)
-    addys.each do |addy|
+    old_addys = Building.pluck(:address)
+    adds_to_remove = old_addys - addys
+    adds_to_add = addys - old_addys
+
+    adds_to_remove.each do |atr|
+      Building.find_by(address: atr).destroy
+    end
+
+    adds_to_add.each do |ata|
       first = addy[0]
       Building.create(address: addy) if first.to_i.to_s == first
     end
-    Building.all.each do |building|
-      Address.create(latitude: building.latitude, longitude: building.longitude)
-    end
+
+
   end
 
 end
