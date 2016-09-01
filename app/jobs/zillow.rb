@@ -7,7 +7,7 @@ class Zillow
     Address.all.each do |address|
       begin
         make_condos(get_zpids(address), address)
-      rescue
+      rescue StandardError
       end
     end
   end
