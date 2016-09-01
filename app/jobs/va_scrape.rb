@@ -42,12 +42,9 @@ class VaScrape
       Building.find_by(address: atr).destroy
     end
 
-    adds_to_add.each do |ata|
-      first = addy[0]
-      Building.create(address: addy) if first.to_i.to_s == first
+    adds_to_add.map do |ata|
+      first = ata[0]
+      Building.create(address: ata) if first.to_i.to_s == first
     end
-
-
   end
-
 end

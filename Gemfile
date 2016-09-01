@@ -34,6 +34,8 @@ gem 'mechanize'
 gem 'geocoder'
 gem 'binding_of_caller'
 gem 'rack-cors'
+gem 'vcr'
+gem 'webmock'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

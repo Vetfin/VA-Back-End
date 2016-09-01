@@ -8,3 +8,10 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+VCR.configure do |config|
+  config.default_cassette_options = { :record => :new_episodes, :erb => true }
+
+  config.cassette_library_dir = "fixtures/vcr_cassettes"
+  config.hook_into :webmock # or :fakeweb
+end
