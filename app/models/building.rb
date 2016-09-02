@@ -6,7 +6,7 @@ class Building < ApplicationRecord
   before_validation :geocode
   validates :address, uniqueness: true
   validates :formatted_address, presence: true
-  has_many :condos
+  has_many :condos, dependent: :destroy
 
 
 end
