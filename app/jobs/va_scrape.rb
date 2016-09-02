@@ -46,6 +46,7 @@ class VaScrape
       zpids = get_zpids(building)
       zpids.each do |zpid|
         Condo.create(zillow_id: zpid.to_i, building_id: building.id)
+      end
     end
   end
 
