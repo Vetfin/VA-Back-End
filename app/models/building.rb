@@ -1,7 +1,6 @@
 class Building < ApplicationRecord
   geocoded_by :address do |obj,results|
     obj.formatted_address = results.first.formatted_address if (results.first)
-    binding.pry
   end
 
   before_validation :geocode
