@@ -27,7 +27,7 @@ class VaScrape
       addresses << record[3].gsub("\n", " ").strip
     end
 
-    addresses
+    addresses.select{|address| address[0].to_i.to_s == address[0]}
   end
 
 
