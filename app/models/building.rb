@@ -4,6 +4,7 @@ class Building < ApplicationRecord
       obj.formatted_address = results.first.formatted_address
       obj.latitude = results.first.latitude
       obj.longitude = results.first.longitude
+    end
   end
 
   before_validation :geocode
