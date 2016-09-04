@@ -43,7 +43,7 @@ class VaScrape
     adds_to_add.each do |ata|
       first = ata[0]
       building = Building.create(address: ata) if first.to_i.to_s == first
-      zpids = get_zpids(building)
+      zpids = get_zpids(building) if building.formatted_address
       zpids.each do |zpid|
         Condo.create(zillow_id: zpid.to_i, building_id: building.id)
       end
