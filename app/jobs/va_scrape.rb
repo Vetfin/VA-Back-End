@@ -63,17 +63,18 @@ class VaScrape
 
   def update_condos
     Condo.all.each do |condo|
-      page = @agent.get("http://www.zillow.com/homedetails/#{condo.zillow_id.to_s}_zpid/")
-      status = page.search(".status-icon-row").children.text.strip
-      stuff = page.search(".addr_bbs")
-      if stuff
+      begin
+        page = @agent.get("http://www.zillow.com/homedetails/#{condo.zillow_id.to_s}_zpid/")
+        status = page.search(".status-icon-row").children.text.strip
+        stuff = page.search(".addr_bbs")
         beds = stuff.first.text.to_i
         baths = stuff[1].text.to_f
         sq_ft = stuff[2].text.gsub(",", "").to_i
+        price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
+        address = page.search(".notranslate").first.text.strip
+        condo.update(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, status: status)
+      rescue NoMethodError
       end
-      price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
-      address = page.search(".notranslate").first.text.strip
-      condo.update(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, status: status)
     end
   end
 
