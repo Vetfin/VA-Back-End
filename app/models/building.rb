@@ -1,8 +1,9 @@
 class Building < ApplicationRecord
   geocoded_by :address do |obj,results|
-    obj.formatted_address = results.first.formatted_address if (results.first)
-    obj.latitude = results.latitude
-    obj.longitude = results.longitude
+    if results.first
+      obj.formatted_address = results.first.formatted_address
+      obj.latitude = results.first.latitude
+      obj.longitude = results.first.longitude
   end
 
   before_validation :geocode
