@@ -3,8 +3,12 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :buildings, only: [:index, :show]
-  resources :condos, only: [:index, :show]
-  get 'condos/search' => 'condos#search'
+  # get 'condos/search' => 'condos#search'
+  resources :condos, only: [:index, :show] do
+    collection do
+      get :search
+    end
+  end
   resources :searches, only: [:create]
   resources :users, only: [:create]
 
