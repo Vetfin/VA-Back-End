@@ -5,7 +5,7 @@ class CondosController < ApplicationController
 
   def search
     # @condos = Condo.where("price < ? AND price > ? AND beds < ? AND beds > ? AND baths < ? AND baths > ?", params[:max_price], params[:min_price], params[:max_bed], params[:min_bed], params[:max_bath], params[:min_bath])
-    @condos = Condo.all
+    @condos = Condo.where(status: "For Sale")
     @condos = @condos.where("price >= ?", params[:min_price]) if params[:min_price]
     @condos = @condos.where("price <= ?", params[:max_price]) if params[:max_price]
     @condos = @condos.where("baths >= ?", params[:min_bath]) if params[:min_bath]
