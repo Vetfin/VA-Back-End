@@ -13,7 +13,7 @@ one:
   parking: false
   hoa: 1
   zillow_id: 1
-  address_id: 1
+  building_id: 1
 
 two:
   street_address: MyString
@@ -28,4 +28,4 @@ two:
   parking: false
   hoa: 1
   zillow_id: 1
-  address_id: 1
+  building_id: 1

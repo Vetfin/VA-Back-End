@@ -45,6 +45,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry-rails'
   gem 'better_errors'
+  gem 'rails-controller-testing'
 end
 
 group :test do
