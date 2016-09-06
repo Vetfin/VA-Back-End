@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     collection do
       get :search
     end
+    member do
+      post :favorite
+    end
   end
   resources :searches, only: [:create]
   resources :users, only: [:create, :show]

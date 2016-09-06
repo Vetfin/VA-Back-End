@@ -16,6 +16,12 @@ class CondosController < ApplicationController
     render :index
   end
 
+  def favorite
+    @user = current_user
+    @condo = Condo.find(params[:id])
+    @user.condos << @condo
+  end
+
   def show
     @condo = Condo.find(params[:id])
   end
