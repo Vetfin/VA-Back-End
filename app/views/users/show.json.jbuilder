@@ -1,1 +1,4 @@
-json.array! @users, partial: 'users/user', as: :user
+json.partial! @user
+json.condos(@condos) do |condo|
+  json.partial! condo
+end

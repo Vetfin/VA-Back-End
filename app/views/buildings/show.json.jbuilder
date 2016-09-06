@@ -1,2 +1,4 @@
-json.array! @buildings, partial: 'buildings/building', as: :building
-json.array! @condos, partial: 'condos/condo', as: :condo
+json.partial! @building
+json.condos(@condos) do |condo|
+  json.partial! condo
+end

@@ -1,1 +1,1 @@
-json.array! @condos, partial: 'condos/condo', as: :condo
+json.partial! @condo
