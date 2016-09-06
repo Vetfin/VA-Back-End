@@ -19,3 +19,4 @@ json.extract! condo,
 
 json.latitude condo.building.latitude
 json.longitude condo.building.longitude
+json.formatted_address condo.building.formatted_address
