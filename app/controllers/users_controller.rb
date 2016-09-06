@@ -6,13 +6,13 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user
     else
-      render json: :unauthorized
+      render json: @user.errors, status: :unauthorized
     end
   end
 
   def show
     @user = User.find(params[:id])
-    @condos = User.condos
+    @condos = @user.condos
   end
 
   def login
