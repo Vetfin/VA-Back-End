@@ -2,6 +2,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.create(user_params)
+    redirect_to user_path(@user.id)
   end
 
   def show
@@ -10,7 +11,7 @@ class UsersController < ApplicationController
 
   def login
     @user = User.find_by(params[:email])
-    redirect to user_path(@user.id)
+    redirect_to user_path(@user.id)
   end
 
   private def user_params
