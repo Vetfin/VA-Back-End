@@ -11,7 +11,6 @@ Rails.application.routes.draw do
   end
   resources :searches, only: [:create]
   resources :users, only: [:create, :show]
-  post 'users/login' => 'users#login'
 
   resources :sessions, only: [:create, :destroy]
 
