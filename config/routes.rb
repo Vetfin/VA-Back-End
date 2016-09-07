@@ -13,11 +13,8 @@ Rails.application.routes.draw do
     end
   end
   resources :searches, only: [:create]
-  resources :users, only: [:create, :show] do
-    member do
-      post :login
-    end
-  end
+  resources :users, only: [:create, :show]
+  post 'users/login' => 'users#login'
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
