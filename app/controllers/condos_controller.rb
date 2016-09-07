@@ -17,11 +17,14 @@ class CondosController < ApplicationController
   end
 
   def favorite
-    token = headers[:token]
-    @user = current_user(token)
-    @condo = Condo.find(params[:id])
-    @user.condos << @condo
-    render '/users/show.json.jbuilder'
+    @user = current_user
+    if @user
+      @condo = Condo.find(params[:id])
+      @user.condos << @condo
+      render '/users/show.json.jbuilder'
+    else
+      render json: {}, message: "No user matches that token"
+    end
   end
 
   def show
