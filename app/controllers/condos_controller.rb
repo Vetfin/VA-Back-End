@@ -17,12 +17,16 @@ class CondosController < ApplicationController
   end
 
   def favorite
-    @user = current_user
+    token = headers[:token]
+    @user = current_user(token)
     @condo = Condo.find(params[:id])
     @user.condos << @condo
   end
 
   def show
-    @condo = Condo.find(params[:id])
+    # @condo = Condo.find(params[:id])
+    # fff
+
+    render json: current_user
   end
 end
