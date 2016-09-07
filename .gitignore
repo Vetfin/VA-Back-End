@@ -6,7 +6,6 @@
 
 # Ignore bundler config.
 /.bundle
-/vcr_cassettes/*
 
 # Ignore all logfiles and tempfiles.
 /log/*
