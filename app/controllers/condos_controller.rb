@@ -24,9 +24,7 @@ class CondosController < ApplicationController
   end
 
   def show
-    # @condo = Condo.find(params[:id])
-    # fff
-
-    render json: current_user
+    @condo = Condo.find(params[:id])
+    fff
   end
 end
