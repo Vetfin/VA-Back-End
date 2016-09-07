@@ -23,7 +23,7 @@ class CondosController < ApplicationController
       @user.condos << @condo
       render '/users/show.json.jbuilder'
     else
-      render json: {}, message: "No user matches that token"
+      render json: {message: "No user matches that token"}
     end
   end
 
