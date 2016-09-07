@@ -16,7 +16,7 @@ class UsersController < ApplicationController
 
     if @user.authenticate(params[:user][:password])
       # session[:user_id] = @user.id # Actually log in
-      render json: @user
+      render :show
     else
       render json: {} , status: :unauthorized
     end

@@ -21,10 +21,10 @@ class CondosController < ApplicationController
     @user = current_user(token)
     @condo = Condo.find(params[:id])
     @user.condos << @condo
+    render '/users/show.json.jbuilder'
   end
 
   def show
     @condo = Condo.find(params[:id])
-    fff
   end
 end
