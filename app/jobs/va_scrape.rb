@@ -69,8 +69,20 @@ class VaScrape
       baths = stuff[1].text.to_f
       sq_ft = stuff[2].text.gsub(",", "").to_i
       price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
-      address = page.search(".notranslate").first.text.strip
-      condo.update(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, status: status)
+      address = page.search(".notranslate").search("li")[-2].text.strip
+      unit = nil
+      begin
+        unit = page.search(".zsg-breadcrumbs-text").text.strip.reverse.to_i.to_s.reverse.to_i
+      rescue StandardError
+      end
+      days_on = nil
+      if status == "For Sale"
+        begin
+          days_on = page.search(".zsg-list_square").first.children[2].text.to_i
+        rescue StandardError
+        end
+      end
+      condo.update(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, status: status, days_on: days_on, unit: unit)
     end
   end
 
