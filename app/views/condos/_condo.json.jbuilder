@@ -15,8 +15,8 @@ json.extract! condo,
   :created_at,
   :updated_at,
   :building_id,
-  :status
-  :days_on
+  :status,
+  :days_on,
   :unit
 
 json.latitude condo.building.latitude
