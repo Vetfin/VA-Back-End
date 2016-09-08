@@ -27,7 +27,7 @@ class VaScrape
       addresses << record[3].gsub("\n", " ").strip
     end
 
-    addresses
+    addresses.select{|address| address[0].to_i.to_s == address[0]}
   end
 
 
@@ -41,50 +41,46 @@ class VaScrape
     end
 
     adds_to_add.each do |ata|
-      first = ata[0]
-      if first.to_i.to_s == first
-        building = Building.create(address: ata)
-        zpids = get_zpids(building)
-        zpids.each do |zpid|
-          Condo.create(zillow_id: zpid.to_i, building_id: building.id)
-        end
+      building = Building.create(address: ata)
+      zpids = get_zpids(building)
+      zpids.each do |zpid|
+        Condo.create(zillow_id: zpid.to_i, building_id: building.id)
       end
     end
   end
 
 
   def get_zpids(building_obj)
-    address = building_obj.formatted_address
-    addy = address.gsub(",", "")
-    parts = addy.split(" ")
-    page = @agent.get("#{@add_search_url}#{parts.first}+#{parts[1]}+#{parts[2]}+#{parts[3]}+&citystatezip=Washington%2C+DC")
-    page.search("zpid").map {|zpid| zpid.children.to_s}
+    if building_obj.formatted_address
+      address = building_obj.formatted_address
+      addy = address.gsub(",", "")
+      parts = addy.split(" ")
+      page = @agent.get("#{@add_search_url}#{parts.first}+#{parts[1]}+#{parts[2]}+#{parts[3]}+&citystatezip=Washington%2C+DC")
+      page.search("zpid").map {|zpid| zpid.children.to_s}
+    else
+      []
+    end
   end
 
 
   def update_condos
     Condo.all.each do |condo|
-      page = @agent.get("http://www.zillow.com/homedetails/#{condo.zillow_id.to_s}_zpid/")
-      status = page.search(".status-icon-row").children.text.strip
-      stuff = page.search(".addr_bbs")
-      beds = stuff.first.text.to_i
-      baths = stuff[1].text.to_f
-      sq_ft = stuff[2].text.gsub(",", "").to_i
-      price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
-      address = page.search(".notranslate").search("li")[-2].text.strip
-      unit = nil
       begin
+        page = @agent.get("http://www.zillow.com/homedetails/#{condo.zillow_id.to_s}_zpid/")
+        status = page.search(".status-icon-row").children.text.strip
+        stuff = page.search(".addr_bbs")
+        beds = stuff.first.text.to_i
+        baths = stuff[1].text.to_f
+        sq_ft = stuff[2].text.gsub(",", "").to_i
+        price = page.search(".main-row").text.strip.split("$")[-1].gsub(",", "").to_i
+        address = page.search(".notranslate").search("li")[-2].text.strip
         unit = page.search(".zsg-breadcrumbs-text").text.strip.reverse.to_i.to_s.reverse.to_i
-      rescue StandardError
-      end
-      days_on = nil
-      if status == "For Sale"
-        begin
+        if status == "For Sale"
           days_on = page.search(".zsg-list_square").first.children[2].text.to_i
-        rescue StandardError
         end
+        condo.update(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, status: status, days_on: days_on, unit: unit)
+      rescue NoMethodError
       end
-      condo.update(street_address: address, city: "Washington", state: "DC", price: price, sq_ft: sq_ft, beds: beds, baths: baths, status: status, days_on: days_on, unit: unit)
     end
   end
 
